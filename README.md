@@ -1,6 +1,7 @@
 # Rebuild
 
-TODO: Write a gem description
+Rebuild.fmをRubyで楽しむためのgem。
+
 
 ## Installation
 
