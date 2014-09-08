@@ -1,5 +1,6 @@
 require "rebuild/version"
 require "rebuild/crawl"
+require "rebuild/db"
 
 require "thor"
 
@@ -15,9 +16,9 @@ module Rebuild
 
   	desc "episodes", "list of shows"
   	def episodes
-  		(1..54).each do |i|
-	  		puts i
-	  	end
+      DB::Episode.order(:no).each do |epi|
+        puts epi.title
+      end
   	end
 
   	desc "listen","listen episode"
@@ -36,11 +37,11 @@ module Rebuild
   	desc "shownotes","show shownotes"
   	option :aftershow, :type => :boolean
   	def shownotes episode
-  		if options[:aftershow]
-  			%w(RubyKaigi2014 会場ネットワークの裏側 CONBU).each{|v| puts v}
-  		else
-  			%w(github.com/amatsuda Asakusa.rb Seattle.rb クックパッドにおける最近のActiveRecord運用事情).each{|v| puts v}
-  		end
+
+      DB::Episode.find_by_no(episode).shownotes.each do |note|
+        puts note.url
+      end
+
   	end
   end
 
