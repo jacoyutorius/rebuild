@@ -5,21 +5,22 @@ Rebuild.fmをRubyで楽しむためのgem。
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'rebuild'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install rebuild
+```shell
+gem install specific_install
+gem specific_install -l "git@github.com:jacoyutorius/rebuild.git"
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+```shell
+$ rebuild
+rebuild clearmp3        # clear downloaded mp3
+rebuild episodes        # list of shows
+rebuild help [COMMAND]  # Describe available commands or one specific command
+rebuild listen          # listen episode
+rebuild shownotes       # show shownotes
+rebuild update          # get new show
+```
 
 ## Contributing
 
