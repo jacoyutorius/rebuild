@@ -3,13 +3,13 @@ require "active_record"
 
 module Rebuild
 
-	# @db = SQLite3::Database.new("anemone.db")
-
 	module DB
 		
+		SQLite3::Database.new("anemone.db")
 		ActiveRecord::Base.establish_connection(
 			adapter: "sqlite3",
 			database: "/Users/yuto-ogi/Work/ruby/rebuild/lib/anemone.db")
+
 
 		def self.init
 			DBMigration.new.up
@@ -50,6 +50,10 @@ module Rebuild
 
 		class Episode < ActiveRecord::Base
 			has_many :shownotes, :foreign_key => "episode_id", :class_name => "ShowNote"
+
+			def self.exist? episode_no
+				raise "Episode #{episode_no} does not exist!" unless self.find_by_no(episode_no)
+			end
 		end
 
 		class ShowNote < ActiveRecord::Base

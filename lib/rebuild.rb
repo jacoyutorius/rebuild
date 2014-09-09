@@ -27,6 +27,8 @@ module Rebuild
   	option :aftershow, :type => :boolean
   	def listen episode
 
+      DB::Episode.exist? episode
+
       Dir::mkdir("./mp3") unless File.exists? "./mp3"
 
       episode = episode.to_s
@@ -45,7 +47,8 @@ module Rebuild
         end
       end
   		
-  		puts "play aftershow #{filename}" 
+      
+  		puts "play show #{filename}" 
 
       os = RbConfig::CONFIG["host_os"]
       case os
@@ -65,31 +68,13 @@ module Rebuild
   	option :aftershow, :type => :boolean
   	def shownotes episode
 
+      DB::Episode.exist? episode
+
       DB::Episode.find_by_no(episode).shownotes.each do |note|
         puts note.url
       end
 
   	end
 
-
-    # def os
-    #   @os ||= (
-    #     host_os = RbConfig::CONFIG['host_os']
-    #     case host_os
-    #     when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
-    #       :windows
-    #     when /darwin|mac os/
-    #       :macosx
-    #     when /linux/
-    #       :linux
-    #     when /solaris|bsd/
-    #       :unix
-    #     else
-    #       raise Error::WebDriverError, "unknown os: #{host_os.inspect}"
-    #     end
-    #   )
-    # end
-
   end
-
 end
