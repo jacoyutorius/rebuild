@@ -50,7 +50,7 @@ module Rebuild
       when /darwin/
         `afplay #{filename} -d`
       else
-        puts "cant't play mp3!"
+        puts "Your PC cant't play mp3 from this gem! Please open #{filename} directry."
       end
   	end
 
