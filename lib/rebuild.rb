@@ -11,6 +11,12 @@ module Rebuild
 
   class FM < Thor
   	
+    desc "initialize", "initialize database"
+    def init
+      SQLite3::Database.new("anemone.db")
+      Rebuild::DB.init
+    end
+
   	desc "update", "get new show"
   	def update
   		Rebuild::Crawl.update
@@ -27,7 +33,7 @@ module Rebuild
   	option :aftershow, :type => :boolean
   	def listen episode
 
-      DB::Episode.exist? episode
+      # DB::Episode.exist? episode
 
       Dir::mkdir("./mp3") unless File.exists? "./mp3"
 
@@ -47,7 +53,7 @@ module Rebuild
         end
       end
   		
-      
+
   		puts "play show #{filename}" 
 
       os = RbConfig::CONFIG["host_os"]

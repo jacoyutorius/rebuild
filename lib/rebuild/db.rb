@@ -4,11 +4,12 @@ require "active_record"
 module Rebuild
 
 	module DB
+
+		dbpath = "/Users/yuto-ogi/Work/ruby/rebuild/lib/anemone.db"
 		
-		SQLite3::Database.new("anemone.db")
 		ActiveRecord::Base.establish_connection(
 			adapter: "sqlite3",
-			database: "/Users/yuto-ogi/Work/ruby/rebuild/lib/anemone.db")
+			database: dbpath)
 
 
 		def self.init
