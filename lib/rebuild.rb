@@ -1,5 +1,5 @@
 require "rebuild/version"
-require "rebuild/crawl"
+require "rebuild/crawler"
 require "rebuild/db"
 require "thor"
 require "open-uri"
@@ -17,10 +17,15 @@ module Rebuild
       Rebuild::DB.init
     end
 
-  	desc "update", "get new show"
-  	def update
-  		Rebuild::Crawl.update
-  	end
+  	# desc "update", "get new show"
+  	# def update
+  	# 	Rebuild::Crawl.update
+  	# end
+
+    desc "fetch", "get new episode"
+    def fetch
+      Rebuild::Crawler.fetch
+    end
 
   	desc "episodes", "list of shows"
   	def episodes
@@ -42,9 +47,11 @@ module Rebuild
 
       # filename = File.expand_path(__FILE__, "./mp3/podcast-ep#{episode}.mp3")
       filename = "./mp3/podcast-ep#{episode}.mp3"
-      puts filename
-
+ 
       unless File.exists? filename
+
+        puts "Downloading episode..."
+
         url = "http://cache.rebuild.fm/podcast-ep#{episode}.mp3"
         open(filename, "wb") do |out|
           open(url) do |data| 

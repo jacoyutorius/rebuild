@@ -3,8 +3,8 @@ require "sqlite3"
 
 module Rebuild
 
-	module Crawl
-		def self.update
+	module Crawler
+		def self.fetch
 			puts "updated show list!"
 		end
 	end
