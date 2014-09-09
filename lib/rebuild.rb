@@ -18,7 +18,9 @@ module Rebuild
 
   	desc "episodes", "list of shows"
   	def episodes
-      DB::Episode.list
+      DB::Episode.order(:no).each do |epi|
+        puts epi.title
+      end
   	end
 
   	desc "listen","listen episode"
@@ -63,38 +65,30 @@ module Rebuild
   	option :aftershow, :type => :boolean
   	def shownotes episode
 
-      episode = DB::ShowNote.find_by_episode episode
-      episode.shownotes.each do |note|
-        puts note
+      DB::Episode.find_by_no(episode).shownotes.each do |note|
+        puts note.url
       end
-
-
-  		if options[:aftershow]
-  			%w(RubyKaigi2014 会場ネットワークの裏側 CONBU).each{|v| puts v}
-  		else
-  			%w(github.com/amatsuda Asakusa.rb Seattle.rb クックパッドにおける最近のActiveRecord運用事情).each{|v| puts v}
-  		end
 
   	end
 
 
-    def os
-      @os ||= (
-        host_os = RbConfig::CONFIG['host_os']
-        case host_os
-        when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
-          :windows
-        when /darwin|mac os/
-          :macosx
-        when /linux/
-          :linux
-        when /solaris|bsd/
-          :unix
-        else
-          raise Error::WebDriverError, "unknown os: #{host_os.inspect}"
-        end
-      )
-    end
+    # def os
+    #   @os ||= (
+    #     host_os = RbConfig::CONFIG['host_os']
+    #     case host_os
+    #     when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+    #       :windows
+    #     when /darwin|mac os/
+    #       :macosx
+    #     when /linux/
+    #       :linux
+    #     when /solaris|bsd/
+    #       :unix
+    #     else
+    #       raise Error::WebDriverError, "unknown os: #{host_os.inspect}"
+    #     end
+    #   )
+    # end
 
   end
 

@@ -1,34 +1,59 @@
+require "sqlite3"
 require "active_record"
 
 module Rebuild
-  module DB
 
-    
-	
-    class Episode < ActiveRecord::Base
-      # has_many :snownotes, 
+	# @db = SQLite3::Database.new("anemone.db")
 
+	module DB
+		
+		ActiveRecord::Base.establish_connection(
+			adapter: "sqlite3",
+			database: "/Users/yuto-ogi/Work/ruby/rebuild/lib/anemone.db")
 
-    def self.list
-      (1..54).each do |i|
-        puts i
-      end
-    end
+		def self.init
+			DBMigration.new.up
+		end
 
-    end
+		def self.create
+			
+		end
 
-    class ShowNote < ActiveRecord::Base
-      def self.find_by_episode episode_no
-       ar = []
-       %w(github.com/amatsuda Asakusa.rb Seattle.rb クックパッドにおける最近のActiveRecord運用事情).each do |v|
-          ar << v
-        end
+		def self.delete
+			DBMigration.new.down
+		end
 
-        ar
-      end
-    end
+		class DBMigration < ActiveRecord::Migration
+			def self.up
+				create_table :episodes do |t|
+					t.integer :no
+					t.string :title
+					t.string :description
+				end
 
-  
+				create_table :show_notes do |t|
+					t.integer :episode_id
+					t.string :note 
+					t.string :url
+				end
+			end
 
-  end	
+			def self.down
+				drop_table :episodes
+				drop_table :show_notes
+			end
+		end
+
+		class Storage < ActiveRecord::Base
+			self.table_name = "anemone_storage"
+		end
+
+		class Episode < ActiveRecord::Base
+			has_many :shownotes, :foreign_key => "episode_id", :class_name => "ShowNote"
+		end
+
+		class ShowNote < ActiveRecord::Base
+		end
+
+	end
 end
