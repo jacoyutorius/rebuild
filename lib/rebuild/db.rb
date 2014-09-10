@@ -50,10 +50,10 @@ module Rebuild
 		end
 
 		class Episode < ActiveRecord::Base
-			# has_many :shownotes, :foreign_key => "episode_id", :class_name => "ShowNote"
-			has_many :shownotes
+			has_many :shownotes, :foreign_key => "episode_id", :class_name => "ShowNote"
+			# has_many :shownotes
 
-			def self.exist? episode_no
+			def self.exists? episode_no
 				raise "Episode #{episode_no} does not exist!" unless self.find_by_no(episode_no)
 			end
 

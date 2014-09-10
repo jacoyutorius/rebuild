@@ -33,7 +33,7 @@ module Rebuild
   	option :aftershow, :type => :boolean
   	def listen episode
 
-      # DB::Episode.exist? episode
+      # DB::Episode.exists? episode
 
       Dir::mkdir("./mp3") unless File.exists? "./mp3"
 
@@ -74,9 +74,9 @@ module Rebuild
 
   	desc "shownotes","show shownotes"
   	option :aftershow, :type => :boolean
-  	def shownotes episode
+  	def shownotes episode=0
 
-      DB::Episode.exist? episode
+      DB::Episode.exists? episode
 
       DB::Episode.find_by_no(episode).shownotes.each do |note|
         puts "#{note.note} : #{note.url}"
