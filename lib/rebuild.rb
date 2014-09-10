@@ -17,11 +17,6 @@ module Rebuild
       Rebuild::DB.init
     end
 
-  	# desc "update", "get new show"
-  	# def update
-  	# 	Rebuild::Crawl.update
-  	# end
-
     desc "fetch", "get new episode"
     def fetch
       Rebuild::Crawler.fetch
@@ -84,10 +79,19 @@ module Rebuild
       DB::Episode.exist? episode
 
       DB::Episode.find_by_no(episode).shownotes.each do |note|
-        puts note.url
+        puts "#{note.note} : #{note.url}"
       end
 
   	end
+
+
+    desc "search", "search shownotes by keyword"
+    def search keyword
+      DB::ShowNote.search(keyword).each do |note|
+        episode = DB::Episode.find_by_id note.episode_id
+        puts "Episode #{episode.no}  : #{note.note}"
+      end
+    end
 
   end
 end
