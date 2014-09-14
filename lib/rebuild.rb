@@ -11,7 +11,7 @@ module Rebuild
 
   class FM < Thor
   	
-    desc "initialize", "initialize database"
+    desc "init", "initialize database"
     def init
       SQLite3::Database.new("anemone.db")
       Rebuild::DB.init
