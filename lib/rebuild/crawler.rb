@@ -1,25 +1,39 @@
+$LOAD_PATH << __dir__
 require "anemone"
 require "sqlite3"
+require "pp"
+require "db"
 
 module Rebuild
 
 	module Crawler
+
+		include DB
+
+
 		def self.fetch
-			puts "updated show list!"
+			# puts "updated show list!"
 
-
-			url = "http://rebuild.fm/"
+			# url = "http://rebuild.fm/"
+			url = "http://rebuild.fm/56"
 
 			option = {
-				storage: Anemone::Storage.SQLite3
+				storage: Anemone::Storage.SQLite3,
+				database: "/Users/yuto-ogi/Work/ruby/rebuild/lib/anemone.db"
 			}
 
+			puts url
+			puts option
 
-			Anemone.crawl(url, option) do |anemone|
+			pp DB::Episode.nil?
+
+
+			Anemone.crawl(url) do |anemone|
 
 				anemone.focus_crawl do |page|
+					puts page
 					page.links.keep_if do |link|
-						link.to_s.match(/http:\/\/rebuild.fm\/[0-9]+|[a]/)
+						puts link.to_s.match(/http:\/\/rebuild.fm\/[0-9]+|[a]/)
 					end
 				end
 
@@ -39,7 +53,7 @@ module Rebuild
 
 					page.doc.css('.episode-description > ul > li > a').each do |element|
 						
-						# p "url: #{element.inner_html}, title:#{element.attributes["href"].value}"
+						p "url: #{element.inner_html}, title:#{element.attributes["href"].value}"
 
 						Rebuild::DB::ShowNote.create!(
 							episode_id: episode.id,
@@ -50,6 +64,10 @@ module Rebuild
 				end
 			end
 
+		rescue => ex
+			p "----------------"
+			pp ex
+			p "----------------"
 		end
 
 

@@ -8,10 +8,11 @@ require "rbconfig"
 module Rebuild
   # Your code goes here...
   include DB
+  include Crawler 
 
   class FM < Thor
   	
-    desc "initialize", "initialize database"
+    desc "init", "initialize database"
     def init
       SQLite3::Database.new("anemone.db")
       Rebuild::DB.init

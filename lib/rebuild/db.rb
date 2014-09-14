@@ -5,8 +5,10 @@ module Rebuild
 
 	module DB
 
+
 		dbpath = "/Users/yuto-ogi/Work/ruby/rebuild/lib/anemone.db"
-		
+			
+		@db = SQLite3::Database.new dbpath
 		ActiveRecord::Base.establish_connection(
 			adapter: "sqlite3",
 			database: dbpath)
