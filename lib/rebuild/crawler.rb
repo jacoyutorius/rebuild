@@ -3,35 +3,32 @@ require "anemone"
 require "sqlite3"
 require "pp"
 require "db"
+require "setting"
 
 module Rebuild
 
 	module Crawler
 
 		include DB
+		include Setting
 
 
 		def self.fetch
-			# puts "updated show list!"
 
-			# url = "http://rebuild.fm/"
-			url = "http://rebuild.fm/56"
+		  DB.init	unless File.exists?(Setting.database)
+
+			url = "http://rebuild.fm/"
+			# url = "http://rebuild.fm/55"
 
 			option = {
-				storage: Anemone::Storage.SQLite3,
-				database: "/Users/yuto-ogi/Work/ruby/rebuild/lib/anemone.db"
+				storage: Anemone::Storage::SQLite3(Setting.database)
 			}
 
-			puts url
-			puts option
 
-			pp DB::Episode.nil?
-
-
-			Anemone.crawl(url) do |anemone|
+			Anemone.crawl(url, option) do |anemone|
 
 				anemone.focus_crawl do |page|
-					puts page
+					# puts page
 					page.links.keep_if do |link|
 						puts link.to_s.match(/http:\/\/rebuild.fm\/[0-9]+|[a]/)
 					end
@@ -65,9 +62,7 @@ module Rebuild
 			end
 
 		rescue => ex
-			p "----------------"
 			pp ex
-			p "----------------"
 		end
 
 

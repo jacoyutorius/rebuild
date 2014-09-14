@@ -1,25 +1,23 @@
 require "sqlite3"
 require "active_record"
+require "setting"
 
 module Rebuild
 
+	include Setting
+
 	module DB
 
+		attr_reader :dbpath
 
-		dbpath = "/Users/yuto-ogi/Work/ruby/rebuild/lib/anemone.db"
-			
-		@db = SQLite3::Database.new dbpath
+		@dbpath = Setting.database
 		ActiveRecord::Base.establish_connection(
 			adapter: "sqlite3",
-			database: dbpath)
+			database: @dbpath)
 
 
 		def self.init
 			DBMigration.new.up
-		end
-
-		def self.create
-			
 		end
 
 		def self.delete

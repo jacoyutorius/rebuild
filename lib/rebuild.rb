@@ -14,12 +14,12 @@ module Rebuild
   	
     desc "init", "initialize database"
     def init
-      SQLite3::Database.new("anemone.db")
       Rebuild::DB.init
     end
 
     desc "fetch", "get new episode"
     def fetch
+
       Rebuild::Crawler.fetch
     end
 
