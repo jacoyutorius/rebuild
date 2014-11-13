@@ -42,9 +42,6 @@ module Rebuild
 			end
 		end
 
-		class Storage < ActiveRecord::Base
-			self.table_name = "anemone_storage"
-		end
 
 		class Episode < ActiveRecord::Base
 			has_many :shownotes, :foreign_key => "episode_id", :class_name => "ShowNote"
