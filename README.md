@@ -14,12 +14,15 @@ gem specific_install -l "git@github.com:jacoyutorius/rebuild.git"
 
 ```shell
 $ rebuild
-rebuild clearmp3        # clear downloaded mp3
-rebuild episodes        # list of shows
-rebuild help [COMMAND]  # Describe available commands or one specific command
-rebuild listen          # listen episode
-rebuild shownotes       # show shownotes
-rebuild update          # get new show
+Commands:
+  rebuild clearmp3        # clear downloaded mp3
+  rebuild episodes        # list of shows
+  rebuild fetch           # get new episode
+  rebuild help [COMMAND]  # Describe available commands or one specific command
+  rebuild init            # initialize database
+  rebuild listen          # listen episode
+  rebuild search          # search shownotes by keyword
+  rebuild shownotes       # show shownotes
 ```
 
 ## Contributing
