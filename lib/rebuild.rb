@@ -1,14 +1,11 @@
 require "rebuild/version"
-require "rebuild/crawler"
 require "rebuild/db"
+require "rebuild/reader"
 require "thor"
 require "open-uri"
 require "rbconfig"
 
 module Rebuild
-  # Your code goes here...
-  include DB
-  include Crawler 
 
   class FM < Thor
   	
@@ -19,8 +16,7 @@ module Rebuild
 
     desc "fetch", "get new episode"
     def fetch
-
-      Rebuild::Crawler.fetch
+      Rebuild::Reader.read
     end
 
   	desc "episodes", "list of shows"
@@ -34,7 +30,6 @@ module Rebuild
   	option :aftershow, :type => :boolean
   	def listen episode
 
-      # DB::Episode.exists? episode
 
       Dir::mkdir("./mp3") unless File.exists? "./mp3"
 
@@ -57,7 +52,7 @@ module Rebuild
       end
   		
 
-  		puts "play show #{filename}" 
+  		puts "play #{filename}" 
 
       os = RbConfig::CONFIG["host_os"]
       case os
@@ -80,7 +75,7 @@ module Rebuild
       DB::Episode.exists? episode
 
       DB::Episode.find_by_no(episode).shownotes.each do |note|
-        puts "#{note.note} : #{note.url}"
+        puts "* #{note.note} (#{note.url})"
       end
 
   	end

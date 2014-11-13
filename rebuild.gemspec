@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "sqlite3"
   spec.add_dependency "anemone"
   spec.add_dependency "activerecord"
+  spec.add_dependency "nokogiri"
 end

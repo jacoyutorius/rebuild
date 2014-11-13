@@ -1,23 +1,20 @@
 require "sqlite3"
 require "active_record"
-require "setting"
 
 module Rebuild
-
-	include Setting
-
 	module DB
 
-		attr_reader :dbpath
-
-		@dbpath = Setting.database
 		ActiveRecord::Base.establish_connection(
 			adapter: "sqlite3",
-			database: @dbpath)
+			database: "./anemone.db")
 
 
 		def self.init
-			DBMigration.new.up
+			if File.exists? "./anemone.db"
+				puts "Database already exist!" 
+			else
+				DBMigration.new.up
+			end
 		end
 
 		def self.delete
@@ -27,7 +24,7 @@ module Rebuild
 		class DBMigration < ActiveRecord::Migration
 			def self.up
 				create_table :episodes do |t|
-					t.integer :no
+					t.string :no
 					t.string :title
 					t.string :description
 				end
@@ -51,7 +48,6 @@ module Rebuild
 
 		class Episode < ActiveRecord::Base
 			has_many :shownotes, :foreign_key => "episode_id", :class_name => "ShowNote"
-			# has_many :shownotes
 
 			def self.exists? episode_no
 				raise "Episode #{episode_no} does not exist!" unless self.find_by_no(episode_no)
